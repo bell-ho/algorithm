@@ -12,12 +12,12 @@ function solution(n, arr1, arr2) {
         const b = strings2[i].split("");
 
         for (let i = 0; i < a.length; i++) {
-            const pa = a[i];
-            const pb = b[i];
+            const pa = Number(a[i]);
+            const pb = Number(b[i]);
 
-            if (pa === " " && pb === " ") {
+            if (!pa && !pb) {
                 aa.push(" ");
-            } else if (pa === "#" || pb === "#") {
+            } else if (pa || pb) {
                 aa.push("#")
             }
         }
@@ -29,16 +29,10 @@ function solution(n, arr1, arr2) {
 
 const parseShape = (arr,n) =>
     arr.map((v) =>
-        v.toString(2).split("").map(v => {
-            if (Number(v)) {
-                return "#";
-            } else {
-                return " ";
-            }
-        }).join(""))
+        v.toString(2).split("").join(""))
         .map((v) => {
             if (v.length !== n) {
-                return v.padStart(n, " ");
+                return v.padStart(n, "0");
             } else {
                 return v;
             }
