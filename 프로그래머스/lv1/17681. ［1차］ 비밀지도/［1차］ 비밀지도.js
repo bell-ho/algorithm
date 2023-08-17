@@ -5,6 +5,7 @@ function solution(n, arr1, arr2) {
     const strings2 = parseShape(arr2,n);
     
     const a1 = [];
+    
 
     for (let i = 0; i < strings1.length; i++) {
         let aa = [];
