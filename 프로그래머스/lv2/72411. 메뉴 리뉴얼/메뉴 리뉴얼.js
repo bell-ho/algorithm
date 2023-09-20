@@ -31,31 +31,25 @@ const countOccurrences = (arr) => {
     }
   });
 
-  const countArray = Object.keys(counts).map(key => ({ str: key, cnt: counts[key] }));
+  const lengthGrouped = Object.keys(counts)
+    .map(key => ({ str: key, cnt: counts[key] }))
+    .filter((v) => v.cnt > 1)
+    .sort((a, b) => b.cnt - a.cnt)
+    .reduce((acc, item) => {
+      const length = item.str.length;
+      if (!acc[length]) {
+        acc[length] = [];
+      }
+      const max = Math.max(...acc[length].map((v) => v.cnt));
+      if (item.cnt >= max) {
+        acc[length].push(item);
+      }
+      return acc;
+    }, {});
 
-  const lengthGrouped = {};
-
-  countArray.forEach(item => {
-    const length = item.str.length;
-    if (!lengthGrouped[length]) {
-      lengthGrouped[length] = [];
-    }
-    lengthGrouped[length].push(item);
-  });
-
-  const maxCountByLength = {};
-  for (const length in lengthGrouped) {
-    let maxCount = Math.max(...lengthGrouped[length].map(item => item.cnt));
-    maxCountByLength[length] = lengthGrouped[length].filter(item => item.cnt === maxCount);
-  }
-
-  const result = [];
-  for (const length in maxCountByLength) {
-    result.push(...maxCountByLength[length]);
-  }
-
-  return result;
+  return [].concat(...Object.values(lengthGrouped));
 };
+
 
 function solution(orders, course) {
     let result = [];
